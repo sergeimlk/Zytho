@@ -1,0 +1,89 @@
+Nom de la propriété,Type,Longueur max,,
+Degrés d'alcool de la bière,nombre,,,
+Couleur de la bière,texte,,,
+Type de bière,texte,,,
+Description de la bière,texte,,,
+Nom de la bière,texte,,,
+Date de parution de la bière,date,,,
+Nom de la brasserie,texte,,,
+Région de la brasserie,texte,,,
+Adresse de la brasserie,texte,,,
+Lien SITEWEB de la brasserie,texte,,,
+,,,,
+Etxeko Bob's Beer,"Hasparren, France",,,
+Brasserie Belharra,"Bayonne, France",,,
+Brasserie des Docks,"Biarritz, France",,,
+,,,,
+1. Entité : Users,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_user,SERIAL,,PRIMARY KEY,Identifiant unique de l'utilisateur
+first_name,VARCHAR,100,,Prénom de l'utilisateur
+email,VARCHAR,100,UNIQUE,Adresse email de l'utilisateur
+password,VARCHAR,100,,Mot de passe de l'utilisateur
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de l'utilisateur
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de l'utilisateur
+,,,,
+2. Entité : Beers,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_beer,SERIAL,,PRIMARY KEY,Identifiant unique de la bière
+name,VARCHAR,100,,Nom de la bière
+description,TEXT,,,Description de la bière
+abv,DECIMAL,"3,1",CHECK (abv BETWEEN 0 AND 20),Taux d'alcool de la bière
+type,VARCHAR,50,,Type de bière
+color,VARCHAR,50,,Couleur de la bière
+release_date,DATE,,,Date de parution de la bière
+id_brewery,INT,,FOREIGN KEY,Identifiant de la brasserie
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de la bière
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de la bière
+,,,,
+3. Entité : Categories,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_category,SERIAL,,PRIMARY KEY,Identifiant unique de la catégorie
+name,VARCHAR,100,UNIQUE,Nom de la catégorie
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de la catégorie
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de la catégorie
+,,,,
+4. Entité : Brew,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_brew,SERIAL,,PRIMARY KEY,Identifiant unique de la brasserie
+name,VARCHAR,100,UNIQUE,Nom de la brasserie
+country,VARCHAR,100,,Pays de la brasserie
+region,VARCHAR,100,,Région de la brasserie
+address,VARCHAR,255,,Adresse de la brasserie
+site_link,VARCHAR,255,,Lien Facebook de la brasserie
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de la brasserie
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de la brasserie
+,,,,
+5. Entité : Reviews,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_review,SERIAL,,PRIMARY KEY,Identifiant unique de la revue
+id_user,INT,,FOREIGN KEY,Identifiant de l'utilisateur
+id_beer,INT,,FOREIGN KEY,Identifiant de la bière
+rating,INT,,CHECK (rating BETWEEN 1 AND 5),Note de la bière
+comment,TEXT,,,Commentaire de la bière
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de la revue
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de la revue
+,,,,
+6. Entité : Favorites,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_favorite,SERIAL,,PRIMARY KEY,Identifiant unique du favori
+id_user,INT,,FOREIGN KEY,Identifiant de l'utilisateur
+id_beer,INT,,FOREIGN KEY,Identifiant de la bière
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création du favori
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour du favori
+,,,,
+7. Entité : Photos,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_photo,SERIAL,,PRIMARY KEY,Identifiant unique de la photo
+id_beer,INT,,FOREIGN KEY,Identifiant de la bière
+url,VARCHAR,255,,URL de la photo
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de la photo
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de la photo
+,,,,
+8. Entité : Ingredients,,,,
+Nom de l'attribut,Type,Longueur max,Contraintes,Description
+id_ingredient,SERIAL,,PRIMARY KEY,Identifiant unique de l'ingrédient
+name,VARCHAR,100,,Nom de l'ingrédient
+type,VARCHAR,100,,Type de l'ingrédient
+created_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de création de l'ingrédient
+updated_at,TIMESTAMP,,DEFAULT CURRENT_TIMESTAMP,Date de mise à jour de l'ingrédient
