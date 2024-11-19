@@ -110,111 +110,101 @@
  | |\/| | | |     | |  | |
  | |  | | | |____ | |__| |
  |_|  |_| |______||_____/ 
-
--- Users Table
+ 
+-- Table Users
 CREATE TABLE Users (
     id_user SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    password VARCHAR(100),
+    first_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Beers Table
+-- Table Beers
 CREATE TABLE Beers (
     id_beer SERIAL PRIMARY KEY,
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
     description TEXT,
     abv DECIMAL(3,1) CHECK (abv BETWEEN 0 AND 20),
     type VARCHAR(50),
     color VARCHAR(50),
     release_date DATE,
-    id_brewery INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_brewery) REFERENCES Breweries(id_brewery)
-);
-
--- Breweries Table
-CREATE TABLE Breweries (
-    id_brewery SERIAL PRIMARY KEY,
-    name VARCHAR(100) UNIQUE,
-    country VARCHAR(100),
-    region VARCHAR(100),
-    address VARCHAR(255),
-    site_link VARCHAR(255),
+    id_brewery INT REFERENCES Breweries(id_brewery) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Reviews Table
+-- Table Breweries
+CREATE TABLE Breweries (
+    id_brewery SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    country VARCHAR(100),
+    region VARCHAR(100),
+    address VARCHAR(255),
+    facebook_link VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table Reviews
 CREATE TABLE Reviews (
     id_review SERIAL PRIMARY KEY,
-    id_user INT,
-    id_beer INT,
+    id_user INT REFERENCES Users(id_user) ON DELETE CASCADE,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Favorites Table
+-- Table Favorites
 CREATE TABLE Favorites (
     id_favorite SERIAL PRIMARY KEY,
-    id_user INT,
-    id_beer INT,
+    id_user INT REFERENCES Users(id_user) ON DELETE CASCADE,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Pictures Table
-CREATE TABLE Pictures (
-    id_pic SERIAL PRIMARY KEY,
-    id_beer INT,
-    url VARCHAR(255),
+-- Table Photos
+CREATE TABLE Photos (
+    id_photo SERIAL PRIMARY KEY,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Ingredients Table
+-- Table Ingredients
 CREATE TABLE Ingredients (
     id_ingredient SERIAL PRIMARY KEY,
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
     type VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- BeerIngredients Table (Association Table for N:M Relationship)
+-- Table BeerIngredients (Relation N:M entre Beers et Ingredients)
 CREATE TABLE BeerIngredients (
-    id_beer INT,
-    id_ingredient INT,
-    PRIMARY KEY (id_beer, id_ingredient),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer),
-    FOREIGN KEY (id_ingredient) REFERENCES Ingredients(id_ingredient)
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    id_ingredient INT REFERENCES Ingredients(id_ingredient) ON DELETE CASCADE,
+    PRIMARY KEY (id_beer, id_ingredient)
 );
 
--- Categories Table
+-- Table Categories
 CREATE TABLE Categories (
     id_category SERIAL PRIMARY KEY,
-    name VARCHAR(100) UNIQUE,
+    name VARCHAR(100) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- BeerCategories Table (Association Table for 1:N Relationship)
+-- Table BeerCategories (Relation 1:N entre Beers et Categories)
 CREATE TABLE BeerCategories (
-    id_beer INT,
-    id_category INT,
-    PRIMARY KEY (id_beer, id_category),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer),
-    FOREIGN KEY (id_category) REFERENCES Categories(id_category)
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    id_category INT REFERENCES Categories(id_category) ON DELETE CASCADE,
+    PRIMARY KEY (id_beer, id_category)
 );
 
 
@@ -229,18 +219,29 @@ CREATE TABLE BeerCategories (
  |_|  |_| |_|     |_____/ 
  
  
- 
--- Users Table
+-- Table Users
 CREATE TABLE Users (
     id_user SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Beers Table
+-- Table Breweries
+CREATE TABLE Breweries (
+    id_brewery SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    country VARCHAR(100),
+    region VARCHAR(100),
+    address VARCHAR(255),
+    facebook_link VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table Beers
 CREATE TABLE Beers (
     id_beer SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -249,59 +250,12 @@ CREATE TABLE Beers (
     type VARCHAR(50),
     color VARCHAR(50),
     release_date DATE,
-    id_brewery INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_brewery) REFERENCES Breweries(id_brewery)
-);
-
--- Breweries Table
-CREATE TABLE Breweries (
-    id_brewery SERIAL PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL,
-    country VARCHAR(100),
-    region VARCHAR(100),
-    address VARCHAR(255),
-    site_link VARCHAR(255),
+    id_brewery INT REFERENCES Breweries(id_brewery) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Reviews Table
-CREATE TABLE Reviews (
-    id_review SERIAL PRIMARY KEY,
-    id_user INT,
-    id_beer INT,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
-);
-
--- Favorites Table
-CREATE TABLE Favorites (
-    id_favorite SERIAL PRIMARY KEY,
-    id_user INT,
-    id_beer INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
-);
-
--- Pictures Table
-CREATE TABLE Pictures (
-    id_pic SERIAL PRIMARY KEY,
-    id_beer INT,
-    url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer)
-);
-
--- Ingredients Table
+-- Table Ingredients
 CREATE TABLE Ingredients (
     id_ingredient SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -310,16 +264,14 @@ CREATE TABLE Ingredients (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- BeerIngredients Table (Association Table for N:M Relationship)
+-- Table BeerIngredients (Relation N:M entre Beers et Ingredients)
 CREATE TABLE BeerIngredients (
-    id_beer INT,
-    id_ingredient INT,
-    PRIMARY KEY (id_beer, id_ingredient),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer),
-    FOREIGN KEY (id_ingredient) REFERENCES Ingredients(id_ingredient)
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    id_ingredient INT REFERENCES Ingredients(id_ingredient) ON DELETE CASCADE,
+    PRIMARY KEY (id_beer, id_ingredient)
 );
 
--- Categories Table
+-- Table Categories
 CREATE TABLE Categories (
     id_category SERIAL PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
@@ -327,11 +279,38 @@ CREATE TABLE Categories (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- BeerCategories Table (Association Table for 1:N Relationship)
+-- Table BeerCategories (Relation 1:N entre Beers et Categories)
 CREATE TABLE BeerCategories (
-    id_beer INT,
-    id_category INT,
-    PRIMARY KEY (id_beer, id_category),
-    FOREIGN KEY (id_beer) REFERENCES Beers(id_beer),
-    FOREIGN KEY (id_category) REFERENCES Categories(id_category)
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    id_category INT REFERENCES Categories(id_category) ON DELETE CASCADE,
+    PRIMARY KEY (id_beer, id_category)
+);
+
+-- Table Reviews
+CREATE TABLE Reviews (
+    id_review SERIAL PRIMARY KEY,
+    id_user INT REFERENCES Users(id_user) ON DELETE CASCADE,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table Favorites
+CREATE TABLE Favorites (
+    id_favorite SERIAL PRIMARY KEY,
+    id_user INT REFERENCES Users(id_user) ON DELETE CASCADE,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table Photos
+CREATE TABLE Photos (
+    id_photo SERIAL PRIMARY KEY,
+    id_beer INT REFERENCES Beers(id_beer) ON DELETE CASCADE,
+    url VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
