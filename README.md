@@ -34,7 +34,7 @@ J'ai effectué ce brief sur 3 jours : lundi, mardi et mercredi. L'objectif étai
 3. **Initialiser la base de données**
   - Importer le script SQL pour initialiser la base de données avec des données de test :
     ```bash
-    docker exec -i <NOM_DU_CONTENEUR> psql -U <UTILISATEUR> -d <NOM_DE_LA_BASE> < init.sql
+    docker exec -i <zythologue-db> psql -U <zythologue_user> -d <zythologue> < init.sql
     ```
 
 4. **Accéder à la base de données avec DBeaver**

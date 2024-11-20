@@ -15,6 +15,10 @@ services:
       - postgres_data:/var/lib/postgresql/data # Persist the database data
       - ./db-scripts:/docker-entrypoint-initdb.d # Load the database schema
 
+volumes:
+  postgres_data:
+
+
 # To connect to the PostgreSQL database using DBeaver:
 # 1. Open DBeaver and create a new connection.
 # 2. Select PostgreSQL as the database type.
@@ -25,6 +29,3 @@ services:
 #    - Username: zythologue_user
 #    - Password: securepassword
 # 4. Test the connection and save it.
-
-volumes:
-  postgres_data:

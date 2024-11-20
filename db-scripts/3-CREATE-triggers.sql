@@ -1,15 +1,5 @@
 -- 03-CREATE-triggers.sql
 
--- Function to update the updated_at column (should be in 02-CREATE-functions.sql)
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
 -- Trigger for Users table
 CREATE TRIGGER users_updated_at_trigger BEFORE UPDATE ON Users
 FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
