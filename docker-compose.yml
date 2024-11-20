@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: zythologue-db
+    restart: always
+    environment:
+      POSTGRES_USER: zythologue_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: zythologue
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# To connect to the PostgreSQL database using DBeaver:
+# 1. Open DBeaver and create a new connection.
+# 2. Select PostgreSQL as the database type.
+# 3. Use the following connection details:
+#    - Host: localhost
+#    - Port: 5432
+#    - Database: zythologue
+#    - Username: zythologue_user
+#    - Password: securepassword
+# 4. Test the connection and save it.
+
+volumes:
+  postgres_data:
