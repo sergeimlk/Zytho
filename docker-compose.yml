@@ -12,7 +12,8 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data # Persist the database data
+      - ./db-scripts:/docker-entrypoint-initdb.d # Load the database schema
 
 # To connect to the PostgreSQL database using DBeaver:
 # 1. Open DBeaver and create a new connection.

@@ -1,11 +1,47 @@
 # 🍺 Zythologue - Base De Données pour Amateurs de Bière
 
 ## 📜 Contexte du Projet
-Tu as une passion dévorante pour la bière artisanale et souhaites découvrir et partager ce monde au-delà de la dégustation : explorer l'histoire derrière chaque brasserie, les ingrédients spécifiques, et les techniques de brassage.
+Découvrir et partager le monde de la Zythologie au-delà de la dégustation : explorer l'histoire derrière chaque brasserie, les ingrédients spécifiques, et les techniques de brassage.
 
-En tant que développeur, tu envisages de créer une application web/mobile pour organiser et partager cette passion. Avant de te lancer dans le développement, une base de données bien structurée est cruciale.
+Pour ce projet, j'ai créé une base de données relationnelle pour cataloguer et gérer des informations sur les bières, les brasseries, les utilisateurs, et bien plus encore. En utilisant PostgreSQL comme SGBD, j'ai structuré les données selon la méthode MERISE et les ai manipulées avec des requêtes SQL.
 
-À toi de jouer ! 😊
+Pour faciliter le déploiement et la gestion de la base de données, j'ai utilisé Docker et docker-compose pour créer un environnement isolé et reproductible. DBeaver a été utilisé comme interface graphique pour interagir avec la base de données, permettant une gestion plus intuitive et visuelle des données.
+
+J'ai effectué ce brief sur 3 jours : lundi, mardi et mercredi. L'objectif était de fournir une solution complète et fonctionnelle qui permet aux amateurs de bière de découvrir, classer, et partager leurs découvertes de manière structurée et efficace.
+
+## 🚀 Procédure de Mise en Place
+
+### Prérequis
+- Docker et docker-compose installés
+- PostgreSQL installé
+- DBeaver ou un autre client SQL
+
+### Étapes
+
+1. **Cloner le dépôt GitHub**
+  ```bash
+  git clone <URL_DU_DEPOT>
+  cd <NOM_DU_DEPOT>
+  ```
+
+2. **Configurer l'environnement Docker**
+  - Assurez-vous que Docker et docker-compose sont installés.
+  - Lancer les conteneurs Docker :
+    ```bash
+    docker-compose up -d
+    ```
+
+3. **Initialiser la base de données**
+  - Importer le script SQL pour initialiser la base de données avec des données de test :
+    ```bash
+    docker exec -i <NOM_DU_CONTENEUR> psql -U <UTILISATEUR> -d <NOM_DE_LA_BASE> < init.sql
+    ```
+
+4. **Accéder à la base de données avec DBeaver**
+  - Configurer une nouvelle connexion PostgreSQL en utilisant les informations de connexion fournies dans le fichier `docker-compose.yml`.
+
+5. **Vérifier les relations et les données**
+  - Utiliser DBeaver pour explorer les tables et vérifier les relations entre elles.
 
 ## 🎓 Modalités Pédagogiques
 
@@ -32,6 +68,11 @@ Organise tes données à l'aide de :
   - Propriétés : `url`
 - **Ingredients** : Détaille les ingrédients des bières.
   - Propriétés : `name`, `type`
+
+### Diagramme MLD et MPD
+
+![Diagramme MCD](./RESSOURCES/Diagramme%20MCD.png)
+![Diagramme MLD MPD](./RESSOURCES/Diagramme%20MLD%20MPD.png)
 
 ### III. Requêtes SQL
 - Lister les bières par taux d'alcool, de la plus légère à la plus forte.
@@ -85,3 +126,18 @@ Un dépôt GitHub contenant :
 - Comprendre les bases de données
 - Modèle Conceptuel des Données
 - Langage SQL
+
+## 👥 Groupes de Travail
+
+Voici la répartition des groupes pour la reprise du projet :
+
+- **Morgan POUSSON** ⇔ **Elena ZIANI**
+- **Mounir GAOUI** ⇔ **Clavequin YAËL**
+- **Maëva CORNIC** ⇔ **Lucio DELLA FELICE**
+- **Emmanuel LINO KUBEMBA** ⇔ **Sergeï MILYUKOV**
+- **Boris DUKO** ⇔ **Agnès CAPPELLO**
+- **Jimmy NI** ⇔ **Quentin DEGLI ESPOSTI**
+- **Juliette SUC** ⇔ **Adrien LEYVAL**
+- **Gwendoline GARLET** ⇔ **Mathieu LECANU**
+- **Nathan VIANEY** ⇔ **Ariane BERTAUD**
+- **Erwan DIDILLON** ⇒ **Camille JANIN** ⇒ **Arnaud MAINDRE** ⇒ **Erwan DIDILLON**
