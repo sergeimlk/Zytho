@@ -20,8 +20,8 @@ J'ai effectué ce brief sur 3 jours : lundi, mardi et mercredi. L'objectif étai
 
 1. **Cloner le dépôt GitHub**
   ```bash
-  git clone <URL_DU_DEPOT>
-  cd <NOM_DU_DEPOT>
+  git clone <git@github.com:sergeimlk/Zytho.git>
+  cd <Zytho>
   ```
 
 2. **Configurer l'environnement Docker**
